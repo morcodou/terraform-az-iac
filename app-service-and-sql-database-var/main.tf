@@ -1,10 +1,16 @@
+provider "azurerm" {
+  version = ">=2.0"
+  # The "feature" block is required for AzureRM provider 2.x.
+  features {}
+}
+
 resource "azurerm_resource_group" "RG-Terraform" {
-  name     = "terraform-resource-group"
-  location = "West Europe"
+  name     = var.resource-group-name
+  location = var.location
 }
 
 resource "azurerm_app_service_plan" "ASP-TerraForm" {
-  name                = "terraform-appserviceplan"
+  name                = var.app-service-plan-name
   location            = azurerm_resource_group.RG-Terraform.location
   resource_group_name = azurerm_resource_group.RG-Terraform.name
 
@@ -15,7 +21,7 @@ resource "azurerm_app_service_plan" "ASP-TerraForm" {
 }
 
 resource "azurerm_app_service" "AS-Terraform" {
-  name                = "app-service-terraform"
+  name                = var.app-service-name
   location            = azurerm_resource_group.RG-Terraform.location
   resource_group_name = azurerm_resource_group.RG-Terraform.name
   app_service_plan_id = azurerm_app_service_plan.ASP-TerraForm.id
@@ -37,7 +43,7 @@ resource "azurerm_app_service" "AS-Terraform" {
 }
 
 resource "azurerm_sql_server" "test" {
-  name                         = "terraform-sqlserver"
+  name                         = "azgmc-terraform-sql"
   resource_group_name          = azurerm_resource_group.RG-Terraform.name
   location                     = azurerm_resource_group.RG-Terraform.location
   version                      = "12.0"
@@ -46,12 +52,12 @@ resource "azurerm_sql_server" "test" {
 }
 
 resource "azurerm_sql_database" "test" {
-  name                = "terraform-sqldatabase"
+  name                = "azgmc-terraform-db"
   resource_group_name = azurerm_resource_group.RG-Terraform.name
   location            = azurerm_resource_group.RG-Terraform.location
   server_name         = azurerm_sql_server.test.name
 
   tags = {
-    environment = "production"
+    environment = "dev"
   }
 }

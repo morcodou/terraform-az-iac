@@ -2,6 +2,7 @@
 .idea/
 drop/
 go_build_main_go
-app-service-and-sql-database/.terraform.lock.hcl
-app-service-and-sql-database/.terraform/providers/registry.terraform.io/hashicorp/azurerm/2.60.0/darwin_amd64/terraform-provider-azurerm_v2.60.0_x5
-app-service-and-sql-database/terraform.tfstate
+*.lock.hcl
+*terraform.tfstate
+*terraform.tfstate.backup
+*/.terraform/providers/registry.terraform.io/hashicorp/azurerm/2.60.0/darwin_amd64/terraform-provider-azurerm_v2.60.0_x5
